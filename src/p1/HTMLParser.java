@@ -28,35 +28,38 @@ public class HTMLParser {
 		return stringBuffer.toString();
 	}
 	
-	public static String htmlToJson(String source) throws Exception {   
-	        Document doc = Jsoup.parse(source);
-			JSONArray jsonArr = new JSONArray();
-	        for (Element table : doc.select("table")) {
-	            for (Element row : table.select("tr")) {
-	                JSONObject jsonObj = new JSONObject();
-	                Elements tds = row.select("td");
-	                String tech = "";
-	                String reason = "";
-	                String lifeCycle = "";
-	                if(tds.size()==1) tech = tds.get(0).text();
-	                else if(tds.size()==2)
-	                {
-		                 tech = tds.get(0).text();
-		                 reason = tds.get(1).text();
-	                }
-	                else if(tds.size()==3)
-	                {
-	                	 tech = tds.get(0).text();
-		                 reason = tds.get(1).text();
-		                 lifeCycle = tds.get(2).text();
-	                }
-	                jsonObj.put("Tech", tech);
-	                jsonObj.put("Reason", reason);
-	                jsonObj.put("LifeCycle", lifeCycle);
-	                jsonArr.put(jsonObj);
-	             }
-	        }
-	        return jsonArr.toString();
+	public static String htmlToJson(String source) throws Exception
+	{   	
+		if(source==null || source.isEmpty()) return "";
+		
+        Document doc = Jsoup.parse(source);
+		JSONArray jsonArr = new JSONArray();
+        for (Element table : doc.select("table")) {
+            for (Element row : table.select("tr")) {
+                JSONObject jsonObj = new JSONObject();
+                Elements tds = row.select("td");
+                String tech = "";
+                String reason = "";
+                String lifeCycle = "";
+                if(tds.size()==1) tech = tds.get(0).text();
+                else if(tds.size()==2)
+                {
+	                 tech = tds.get(0).text();
+	                 reason = tds.get(1).text();
+                }
+                else if(tds.size()==3)
+                {
+                	 tech = tds.get(0).text();
+	                 reason = tds.get(1).text();
+	                 lifeCycle = tds.get(2).text();
+                }
+                jsonObj.put("Tech", tech);
+                jsonObj.put("Reason", reason);
+                jsonObj.put("LifeCycle", lifeCycle);
+                jsonArr.put(jsonObj);
+             }
+        }
+        return jsonArr.toString();
 	}
 
 	public static void main(String[] args) {
